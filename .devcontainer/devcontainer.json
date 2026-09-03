@@ -4,7 +4,7 @@
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
 
   // Replaces 'before' and 'init' tasks. Runs once when the container is first created.
-  "postCreateCommand": "nvm install 22 && nvm use 22 && npm install",
+  "postCreateCommand": "npm install",
 
   // Replaces 'command'. Runs every time the codespace starts up.
   "postStartCommand": "npm start",
