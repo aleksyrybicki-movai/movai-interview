@@ -1,0 +1,32 @@
+header,
+footer,
+aside,
+article {
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.wrapper {
+  height: 100vh;
+}
+
+.header {
+  background: tomato;
+}
+
+.footer {
+  background: lightgreen;
+}
+
+.content {
+  background: deepskyblue;
+}
+
+.aside-left {
+  background: gold;
+}
+
+.aside-right {
+  background: hotpink;
+}

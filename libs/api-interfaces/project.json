@@ -1,0 +1,23 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/api-interfaces/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/api-interfaces/**/*.ts"]
+      }
+    },
+    "openapi-to-typescript": {
+      "executor": "nx:run-commands",
+      "outputs": ["libs/api-interfaces/src/lib"],
+      "options": {
+        "cwd": "libs/api-interfaces",
+        "command": "openapi-typescript \"openapi/*.yaml\" --output src/lib/ --make-paths-enum --path-params-as-types --prettier-config ../../.prettierrc"
+      }
+    }
+  },
+  "tags": []
+}

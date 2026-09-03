@@ -1,0 +1,143 @@
+openapi: 3.0.3
+info:
+  title: Items
+  version: 1.0.0
+paths:
+  /api/items:
+    get:
+      summary: Get list of items
+      operationId: listItems
+      parameters:
+        - in: query
+          name: filter
+          description: Filter item
+          schema:
+            $ref: '#/components/schemas/ItemFilter'
+        - in: query
+          name: pagination
+          description: Pagination
+          schema:
+            $ref: '#/components/schemas/PaginationRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - items
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ItemWithId'
+                  pagination:
+                    $ref: '#/components/schemas/PaginationResponse'
+    post:
+      summary: Create item
+      operationId: createItem
+      requestBody:
+        description: New item data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        201:
+          description: Item was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemWithId'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemBadRequest'
+  /api/items/{itemId}:
+    delete:
+      summary: Delete item
+      operationId: deleteItem
+      parameters:
+        - in: path
+          name: itemId
+          description: ID of item to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Item was deleted
+components:
+  schemas:
+    Item:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+    ItemWithId:
+      allOf:
+        - $ref: '#/components/schemas/Item'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+    ItemFilter:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+    ItemBadRequest:
+      type: object
+      properties:
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/BadRequestError'
+    BadRequestError:
+      type: object
+      properties:
+        path:
+          type: string
+        message:
+          type: string
+        errorCode:
+          type: string
+    PaginationRequest:
+      type: object
+      properties:
+        page:
+          type: integer
+        per:
+          type: integer
+    PaginationResponse:
+      type: object
+      required:
+        - page
+        - per
+        - total
+      properties:
+        page:
+          type: integer
+        per:
+          type: integer
+        total:
+          type: integer

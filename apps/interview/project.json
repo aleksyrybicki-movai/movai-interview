@@ -1,0 +1,94 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/interview/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/interview",
+        "index": "apps/interview/src/index.html",
+        "baseHref": "/",
+        "main": "apps/interview/src/main.tsx",
+        "polyfills": "apps/interview/src/polyfills.ts",
+        "tsConfig": "apps/interview/tsconfig.app.json",
+        "assets": [
+          "apps/interview/src/assets",
+          {
+            "input": "apps/interview/public",
+            "glob": "**/*",
+            "output": "/"
+          }
+        ],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "apps/interview/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/interview/src/environments/environment.ts",
+              "with": "apps/interview/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "interview:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "interview:build:development"
+        },
+        "production": {
+          "buildTarget": "interview:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/interview/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/interview"],
+      "options": {
+        "jestConfig": "apps/interview/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "generate-documentation": {
+      "executor": "nx:run-commands",
+      "outputs": ["docs"],
+      "options": {
+        "command": "typedoc apps/interview/src/app/api/index.ts --tsconfig apps/interview/tsconfig.app.json --readme none"
+      }
+    }
+  },
+  "tags": []
+}
