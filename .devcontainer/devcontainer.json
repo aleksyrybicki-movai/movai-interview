@@ -1,0 +1,30 @@
+{
+  "name": "MOV.ai Interview",
+  // Uses Microsoft's standard Node.js image (comes with nvm, npm, and node pre-installed)
+  "image": "://microsoft.com",
+
+  // Replaces 'before' and 'init' tasks. Runs once when the container is first created.
+  "postCreateCommand": "nvm install 22 && nvm use 22 && npm install",
+
+  // Replaces 'command'. Runs every time the codespace starts up.
+  "postStartCommand": "npm start",
+
+  // Replaces 'ports' configuration
+  "forwardPorts": [4200, 3333, 9229],
+  
+  // Customizes port behavior to match your Gitpod settings
+  "portsAttributes": {
+    "4200": {
+      "label": "Webpack Dev Server",
+      "onAutoForward": "openBrowser"
+    },
+    "3333": {
+      "label": "API",
+      "onAutoForward": "silent"
+    },
+    "9229": {
+      "label": "Debugger",
+      "onAutoForward": "silent"
+    }
+  }
+}
