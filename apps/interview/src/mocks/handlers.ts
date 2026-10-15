@@ -49,39 +49,35 @@ export const handlers = [
 
     // Try to parse filter if provided
     if (filterParam) {
-      try {
-        filter = JSON.parse(decodeURIComponent(filterParam));
-      } catch (e) {
-        // If not JSON, try parsing individual filter params
-        const name = req.url.searchParams.get('filter[name]');
-        const title = req.url.searchParams.get('filter[title]');
-        const description = req.url.searchParams.get('filter[description]');
-        const id = req.url.searchParams.get('filter[id]');
-        
-        if (name || title || description || id) {
-          filter = {};
-          if (name) filter.name = name;
-          if (title) filter.title = title;
-          if (description) filter.description = description;
-          if (id) filter.id = parseInt(id, 10);
-        }
+      filter = JSON.parse(decodeURIComponent(filterParam));
+    } else {
+      // If not JSON, try parsing individual filter params
+      const name = req.url.searchParams.get('filter[name]');
+      const title = req.url.searchParams.get('filter[title]');
+      const description = req.url.searchParams.get('filter[description]');
+      const id = req.url.searchParams.get('filter[id]');
+      
+      if (name || title || description || id) {
+        filter = {};
+        if (name) filter.name = name;
+        if (title) filter.title = title;
+        if (description) filter.description = description;
+        if (id) filter.id = parseInt(id, 10);
       }
     }
 
     // Try to parse pagination if provided
     if (paginationParam) {
-      try {
-        pagination = JSON.parse(decodeURIComponent(paginationParam));
-      } catch (e) {
-        // If not JSON, try parsing individual pagination params
-        const page = req.url.searchParams.get('pagination[page]');
-        const per = req.url.searchParams.get('pagination[per]');
-        
-        if (page || per) {
-          pagination = {};
-          if (page) pagination.page = parseInt(page, 10);
-          if (per) pagination.per = parseInt(per, 10);
-        }
+      pagination = JSON.parse(decodeURIComponent(paginationParam));
+    } else {
+      // If not JSON, try parsing individual pagination params
+      const page = req.url.searchParams.get('pagination[page]');
+      const per = req.url.searchParams.get('pagination[per]');
+      
+      if (page || per) {
+        pagination = {};
+        if (page) pagination.page = parseInt(page, 10);
+        if (per) pagination.per = parseInt(per, 10);
       }
     }
 
